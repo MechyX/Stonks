@@ -4,7 +4,7 @@ import redis.clients.jedis.Jedis;
 
 public class RedisAdapter {
 
-    public Jedis jedis;
+    private Jedis jedis;
 
     public void connect () {
         try {
@@ -13,5 +13,17 @@ public class RedisAdapter {
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public String get(String searchKey){
+        return jedis.get(searchKey);
+    }
+
+    public void set(String key, String value){
+        jedis.set(key, value);
+    }
+
+    public void expire(String key, int timeout){
+        jedis.expire(key, timeout);
     }
 }

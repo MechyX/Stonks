@@ -15,11 +15,11 @@ public class AlphaVantageHelper {
             .connectTimeout(Duration.ofSeconds(20))
             .build();
     private String APIKey;
-    private RedisAdapter Cache;
+    private RedisAdapter cache;
 
     public AlphaVantageHelper(String APIKey){
-        Cache = new RedisAdapter();
-        Cache.connect();
+        cache = new RedisAdapter();
+        cache.connect();
         setAPIKey(APIKey);
     }
 
@@ -29,8 +29,8 @@ public class AlphaVantageHelper {
 
     public String sendRequest(String endPoint, String searchKey){
 
-        if (Cache.jedis.get(searchKey) != null) {
-            return Cache.jedis.get(searchKey);
+        if (cache.get(searchKey) != null) {
+            return cache.get(searchKey);
         }
 
         String reqURL = baseUri + endPoint;
@@ -50,8 +50,8 @@ public class AlphaVantageHelper {
 
         if (response.statusCode() == 200) {
             String responseBody = response.body();
-            Cache.jedis.set(searchKey, responseBody);
-            Cache.jedis.expire(searchKey, 10);
+            cache.set(searchKey, responseBody);
+            cache.expire(searchKey, 10);
             return responseBody;
         }
 
