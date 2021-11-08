@@ -15,7 +15,7 @@ public class AlphaVantageHelper {
             .connectTimeout(Duration.ofSeconds(20))
             .build();
     private String APIKey;
-    private RedisAdapter cache;
+    private final RedisAdapter cache;
 
     public AlphaVantageHelper(String APIKey){
         cache = new RedisAdapter();

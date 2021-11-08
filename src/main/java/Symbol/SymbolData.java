@@ -24,32 +24,30 @@ public class SymbolData {
     }
 
     public ArrayList<Double> getClose() {
-        return new ArrayList<Double>(close);
+        return new ArrayList<>(close);
     }
 
     public ArrayList<Double> getHigh() {
-        return new ArrayList<Double>(high);
+        return new ArrayList<>(high);
     }
 
     public ArrayList<Double> getOpen(){
-        return new ArrayList<Double>(open);
+        return new ArrayList<>(open);
     }
 
     public ArrayList<Double> getLow(){
-        return new ArrayList<Double>(low);
+        return new ArrayList<>(low);
     }
 
     public ArrayList<Double> getVolume(){
-        return new ArrayList<Double>(volume);
+        return new ArrayList<>(volume);
     }
 
     public ArrayList<String> getTimeSeriesString() {
-        return new ArrayList<String>(timeSeriesString);
+        return new ArrayList<>(timeSeriesString);
     }
 
-    public String getResponseString() {
-        return responseString;
-    }
+    public String getResponseString() { return responseString; }
 
     public SymbolData(String responseString, String timePeriod){
         this.timePeriod = timePeriod;
@@ -69,14 +67,13 @@ public class SymbolData {
 
     private void populateFields(JSONObject data){
         try {
-            for(int i = 0; i < timeSeriesString.size(); i++){
-                String key = timeSeriesString.get(i);
+            for (String key : timeSeriesString) {
                 JSONObject profile = (JSONObject) data.get(key);
-                double openValue = Double.parseDouble((String)profile.get("1. open"));
-                double highValue = Double.parseDouble((String)profile.get("2. high"));
-                double lowValue = Double.parseDouble((String)profile.get("3. low"));
-                double closeValue = Double.parseDouble((String)profile.get("4. close"));
-                double volumeValue = Double.parseDouble((String)profile.get("5. volume"));
+                double openValue = Double.parseDouble((String) profile.get("1. open"));
+                double highValue = Double.parseDouble((String) profile.get("2. high"));
+                double lowValue = Double.parseDouble((String) profile.get("3. low"));
+                double closeValue = Double.parseDouble((String) profile.get("4. close"));
+                double volumeValue = Double.parseDouble((String) profile.get("5. volume"));
                 open.add(openValue);
                 high.add(highValue);
                 low.add(lowValue);
