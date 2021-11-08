@@ -17,7 +17,7 @@ public class SymbolPlotter {
         chart.getStyler().setTheme(new MatlabTheme());
         XYSeries series = chart.addSeries("Stock Movement", x, data.getOpen());
         series.setMarker(SeriesMarkers.NONE);
-        setChartTitles(chart, titles.getMainTitle(), titles.getXTitle(), titles.getYTitle());
+        setChartTitles(chart, titles);
 
         return chart;
     }
@@ -31,15 +31,15 @@ public class SymbolPlotter {
                 data.getLow(), data.getClose(), data.getVolume());
         series.setMarker(SeriesMarkers.NONE);
 
-        setChartTitles(chart, titles.getMainTitle(), titles.getXTitle(), titles.getYTitle());
+        setChartTitles(chart, titles);
 
         return buildImage(chart);
     }
 
-    private static void setChartTitles(Chart chart, String title, String xAxisTitle, String yAxisTitle){
-        chart.setTitle(title);
-        chart.setXAxisTitle(xAxisTitle);
-        chart.setYAxisTitle(yAxisTitle);
+    private static void setChartTitles(Chart chart, PlotTitles titles){
+        chart.setTitle(titles.getMainTitle());
+        chart.setXAxisTitle(titles.getXTitle());
+        chart.setYAxisTitle(titles.getYTitle());
     }
 
     private static ArrayList<Double> getXLinspace(int size){
