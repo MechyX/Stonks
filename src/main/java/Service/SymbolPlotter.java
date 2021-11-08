@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class SymbolPlotter {
-    public static XYChart buildLineChart(ArrayList<Double> x, ArrayList<Double> y){
+    private static XYChart buildLineChart(ArrayList<Double> x, ArrayList<Double> y){
         XYChart chart = new XYChart(800, 600);
         chart.getStyler().setTheme(new MatlabTheme());
         XYSeries series = chart.addSeries("Stock Movement", x, y);
@@ -18,13 +18,13 @@ public class SymbolPlotter {
         return chart;
     }
 
-    public static void setChartTitles(XYChart chart, String title, String xAxisTitle, String yAxisTitle){
+    private static void setChartTitles(XYChart chart, String title, String xAxisTitle, String yAxisTitle){
         chart.setTitle(title);
         chart.setXAxisTitle(xAxisTitle);
         chart.setYAxisTitle(yAxisTitle);
     }
 
-    public static BufferedImage buildImage(XYChart chart){
+    private static BufferedImage buildImage(XYChart chart){
         BufferedImage img = null;
         try{
             img = BitmapEncoder.getBufferedImage(chart);
