@@ -51,7 +51,7 @@ public class AlphaVantageHelper {
         if (response.statusCode() == 200) {
             String responseBody = response.body();
             cache.set(searchKey, responseBody);
-            cache.expire(searchKey, 10);
+            cache.expire(searchKey, 1000);
             return responseBody;
         }
 

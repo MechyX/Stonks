@@ -1,11 +1,14 @@
 import Service.AlphaVantageHelper;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-import Service.SymbolPlotter;
+import java.io.File;
+
+import Symbol.Plot.PlotTitles;
+import Symbol.SymbolData;
+import Symbol.Plot.SymbolPlotter;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.json.JSONObject;
+
+import javax.imageio.ImageIO;
 
 public class app {
 
@@ -17,29 +20,18 @@ public class app {
                 .load();
         String apiKey = dotenv.get("ALPHA_VANTAGE_API_KEY");
         AlphaVantageHelper helper = new AlphaVantageHelper(apiKey);
-        String res = helper.latestTimeSeriesIntraday("IBM", 5);
+        String res = helper.dailyTimeSeries("IBM");
         System.out.println(res);
-        ArrayList<String> timeSeriesString = null;
-        ArrayList<Double> openValues = new ArrayList<>();
 
-        try {
-            JSONObject jsonObject = new JSONObject(res);
-            JSONObject data = (JSONObject) jsonObject.get("Time Series (5min)");
-            timeSeriesString = (ArrayList<String>) data.keySet().stream().sorted().
-                    collect(Collectors.toList());
 
-            for(int i = 0; i < timeSeriesString.size(); i++){
-                String key = timeSeriesString.get(i);
-                JSONObject profile = (JSONObject) data.get(key);
-                double openValue = Double.parseDouble((String)profile.get("1. open"));
-                openValues.add(openValue);
-            }
-
-            BufferedImage img = SymbolPlotter.plotLatestTimeSeriesIntraday(timeSeriesString, openValues);
-        }  catch (Exception err){
-            err.printStackTrace();
+        SymbolData data = new SymbolData(res, "Daily");
+        PlotTitles titles = new PlotTitles("Main Title", "X - Axis Title", "Y - Axis Title");
+        BufferedImage img = SymbolPlotter.buildOHLCChart(data, titles);
+        File outfile = new File("image.jpg");
+        try{
+            ImageIO.write(img, "jpg", outfile);
+        } catch (Exception e){
+           e.printStackTrace();
         }
-
-
     }
 }
