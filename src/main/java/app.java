@@ -20,13 +20,13 @@ public class app {
                 .load();
         String apiKey = dotenv.get("ALPHA_VANTAGE_API_KEY");
         AlphaVantageHelper helper = new AlphaVantageHelper(apiKey);
-        String res = helper.dailyTimeSeries("IBM");
-        System.out.println(res);
+        String res = helper.monthlyTimeSeries("IBM");
 
 
-        SymbolData data = new SymbolData(res, "Daily");
+        SymbolData data = new SymbolData(res);
         PlotTitles titles = new PlotTitles("Main Title", "X - Axis Title", "Y - Axis Title");
-        BufferedImage img = SymbolPlotter.buildOHLCChart(data, titles);
+        SymbolPlotter plotter = new SymbolPlotter();
+        BufferedImage img = SymbolPlotter.buildLineChart(data, titles, 1600, 800);
         File outfile = new File("image.jpg");
         try{
             ImageIO.write(img, "jpg", outfile);

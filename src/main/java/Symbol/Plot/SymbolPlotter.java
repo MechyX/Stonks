@@ -10,22 +10,23 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class SymbolPlotter {
-    public static XYChart buildLineChart(SymbolData data, PlotTitles titles){
+
+    public static BufferedImage buildLineChart(SymbolData data, PlotTitles titles, int imgWidth, int imgHeight){
         ArrayList<Double> x = getXLinspace(data.totalDataPointCount());
 
-        XYChart chart = new XYChart(800, 600);
+        XYChart chart = new XYChart(imgWidth, imgHeight);
         chart.getStyler().setTheme(new MatlabTheme());
         XYSeries series = chart.addSeries("Stock Movement", x, data.getOpen());
         series.setMarker(SeriesMarkers.NONE);
         setChartTitles(chart, titles);
 
-        return chart;
+        return buildImage(chart);
     }
 
-    public static BufferedImage buildOHLCChart(SymbolData data, PlotTitles titles){
+    public static BufferedImage buildOHLCChart(SymbolData data, PlotTitles titles, int imgWidth, int imgHeight){
         ArrayList<Double> x = getXLinspace(data.totalDataPointCount());
 
-        OHLCChart chart = new OHLCChart(1200, 800);
+        OHLCChart chart = new OHLCChart(imgWidth, imgHeight);
         chart.getStyler().setTheme(new MatlabTheme());
         OHLCSeries series = chart.addSeries("Stock Movement", x, data.getOpen(), data.getHigh(),
                 data.getLow(), data.getClose(), data.getVolume());

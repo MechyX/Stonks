@@ -30,6 +30,7 @@ public class AlphaVantageHelper {
     public String sendRequest(String endPoint, String searchKey){
 
         if (cache.get(searchKey) != null) {
+            System.out.println("In Cache");
             return cache.get(searchKey);
         }
 

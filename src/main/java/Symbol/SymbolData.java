@@ -49,8 +49,7 @@ public class SymbolData {
 
     public String getResponseString() { return responseString; }
 
-    public SymbolData(String responseString, String timePeriod){
-        this.timePeriod = timePeriod;
+    public SymbolData(String responseString){
         this.responseString = responseString;
         open = new ArrayList<>();
         close = new ArrayList<>();
@@ -59,7 +58,8 @@ public class SymbolData {
         volume = new ArrayList<>();
 
         JSONObject jsonObject = new JSONObject(responseString);
-        JSONObject data = (JSONObject) jsonObject.get("Time Series " + "(" + timePeriod + ")");
+        this.timePeriod = jsonObject.names().getString(0);
+        JSONObject data = (JSONObject) jsonObject.get(timePeriod);
         timeSeriesString = (ArrayList<String>) data.keySet().stream().sorted().
                 collect(Collectors.toList());
         populateFields(data);
