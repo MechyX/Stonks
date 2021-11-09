@@ -1,6 +1,6 @@
-package Symbol.Plot;
+package symbol.plot;
 
-import Symbol.SymbolData;
+import symbol.SymbolData;
 import org.knowm.xchart.*;
 import org.knowm.xchart.internal.chartpart.Chart;
 import org.knowm.xchart.style.markers.SeriesMarkers;

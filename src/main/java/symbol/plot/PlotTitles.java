@@ -1,4 +1,4 @@
-package Symbol.Plot;
+package symbol.plot;
 
 public class PlotTitles {
     private String mainTitle;

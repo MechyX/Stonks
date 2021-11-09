@@ -1,17 +1,16 @@
-import Service.AlphaVantageHelper;
+import service.AlphaVantageHelper;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import Symbol.Plot.PlotTitles;
-import Symbol.SymbolData;
-import Symbol.Plot.SymbolPlotter;
+import symbol.plot.PlotTitles;
+import symbol.SymbolData;
+import symbol.plot.SymbolPlotter;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import javax.imageio.ImageIO;
 
-public class app {
-
+public class PlotTest {
     public static void main(String[] args) {
         Dotenv dotenv = Dotenv.configure()
                 .directory(".")
@@ -31,7 +30,7 @@ public class app {
         try{
             ImageIO.write(img, "jpg", outfile);
         } catch (Exception e){
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

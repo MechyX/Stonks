@@ -1,5 +1,5 @@
-package Service;
-import Database.RedisAdapter;
+package service;
+import database.RedisAdapter;
 
 import java.net.URI;
 import java.net.http.HttpClient;
