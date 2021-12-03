@@ -60,6 +60,12 @@ public class AlphaVantageHelper {
             return null;
         }
 
+        String errorString = "Error Message";
+
+        // check if error in stock symbol
+        if (response.body().toLowerCase().contains(errorString.toLowerCase()))
+            return null;
+
         if (response.statusCode() == 200) {
             String responseBody = response.body();
             cache.set(searchKey, responseBody);

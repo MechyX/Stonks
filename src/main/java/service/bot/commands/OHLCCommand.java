@@ -9,6 +9,7 @@ import service.MailHelper;
 import symbol.SymbolData;
 import symbol.plot.PlotTitles;
 import symbol.plot.SymbolPlotter;
+import util.EmailValidator;
 
 import java.io.File;
 import java.util.HashMap;
@@ -41,7 +42,9 @@ public class OHLCCommand implements SlashCommand {
                 .map(ApplicationCommandInteractionOptionValue::asString)
                 .get();
 
-        String res = null;
+
+
+        String res;
         if (timePeriod == "daily"){
             res = APIHelper.dailyTimeSeries(symbolName);
         }
@@ -55,10 +58,10 @@ public class OHLCCommand implements SlashCommand {
             res = APIHelper.latestTimeSeriesIntraday(symbolName, 5);
         }
 
-        if (res == null){
+        if (res == null || EmailValidator.validate(mailTo) == false){
             return  event.reply()
                     .withEphemeral(true)
-                    .withContent("Some Error!");
+                    .withContent("Error -> Invalid symbol/email or Server issues, try again.");
         }
 
         SymbolData data = new SymbolData(res);
@@ -69,6 +72,7 @@ public class OHLCCommand implements SlashCommand {
         String subject = "OHLC Chart for the specified period";
         StringBuffer body
                 = new StringBuffer("<html>" + "Symbol : " + symbolName + "<br>");
+        body.append("Time Period : " + timePeriod + "<br>");
         body.append("<img src=\"cid:ohlc_plot\" width=\"50%\" height=\"50%\" /><br>");
         body.append("</html>");
 
