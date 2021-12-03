@@ -1,5 +1,6 @@
 package service;
 import database.RedisAdapter;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -16,11 +17,21 @@ public class AlphaVantageHelper {
             .build();
     private String APIKey;
     private final RedisAdapter cache;
+    private static final Dotenv dotenv = Dotenv.configure()
+            .directory(".")
+            .ignoreIfMalformed()
+            .ignoreIfMissing()
+            .load();
 
-    public AlphaVantageHelper(String APIKey){
+    public AlphaVantageHelper(){
         cache = new RedisAdapter();
         cache.connect();
-        setAPIKey(APIKey);
+        readTokenFromEnv();
+    }
+
+    private void readTokenFromEnv(){
+        String apiKey = dotenv.get("ALPHA_VANTAGE_API_KEY");
+        setAPIKey(apiKey);
     }
 
     public void setAPIKey(String APIKey){
@@ -46,7 +57,7 @@ public class AlphaVantageHelper {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         }catch(Exception e){
             System.err.println(e.getMessage());
-            return " ";
+            return null;
         }
 
         if (response.statusCode() == 200) {
@@ -56,7 +67,7 @@ public class AlphaVantageHelper {
             return responseBody;
         }
 
-        return " ";
+        return null;
     }
 
     // latest 100 data points with interval as specified minutes
